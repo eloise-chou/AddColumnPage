@@ -41,7 +41,7 @@ def get_shopee_api_dict(params) -> Dict[str, Any]:
     req = rq.get(API_URL, params=params, headers=my_headers)
     return req.json()
 
-def get_normal_stock_from_dict(shopee_api_return_dict:Dict[str, Any]) -> int:
+def get_current_stock_from_dict(shopee_api_return_dict:Dict[str, Any]) -> int:
     """    
     Returns the value associated with the 'normal_stock' key from the
     provided Shopee API response dictionary.
@@ -51,7 +51,7 @@ def get_normal_stock_from_dict(shopee_api_return_dict:Dict[str, Any]) -> int:
     except KeyError as ke:
         raise ke
     
-def get_display_price_from_dict(shopee_api_return_dict:Dict[str, Any]) -> int:
+def get_current_price_from_dict(shopee_api_return_dict:Dict[str, Any]) -> int:
     """    
     Returns the value associated with the 'display_price' key from the
     provided Shopee API response dictionary.
@@ -62,7 +62,7 @@ def get_display_price_from_dict(shopee_api_return_dict:Dict[str, Any]) -> int:
         raise ke
 
 @wait_for_some_second(sec = 1)
-def get_normal_stock_price(item_id:int , model_id:int , shop_id:int) -> Tuple[int, int]:
+def get_current_stock_price(item_id:int , model_id:int , shop_id:int) -> Tuple[int, int]:
     """
     Returns the value of the 'normal_stock' key from the Shopee API response
     dictionary obtained using the provided
@@ -71,9 +71,9 @@ def get_normal_stock_price(item_id:int , model_id:int , shop_id:int) -> Tuple[in
     params = get_param_dict(item_id , model_id , shop_id)
     request_dict = get_shopee_api_dict(params=params)
     try:
-        normal_stock_q = get_normal_stock_from_dict(request_dict)
-        display_price = get_display_price_from_dict(request_dict)
+        current_stock = get_current_stock_from_dict(request_dict)
+        current_price = get_current_price_from_dict(request_dict)
                                          #/100000 because the orig price is somehow bluffed
-        return normal_stock_q, display_price /100_000
+        return current_stock, current_price /100_000
     except KeyError as ke:
         logger.warning(f"Model Info {params} has no 'normal_stock' key!")

@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 from typing import Tuple
 
-from model.request import get_normal_stock_price
+from model.request import get_current_stock_price
 
 logger = logging.getLogger('Shopee_API')
 logger.setLevel(logging.WARNING)
@@ -13,7 +13,7 @@ def df_column_to_stock_price(data: pd.Series) -> Tuple[int,int]:
         item_id     :int = data["item_id"]
         model_id    :int = data["model_id"]
         shop_id     :int = data["shop_id"] 
-        item_detail = get_normal_stock_price(
+        item_detail = get_current_stock_price(
             item_id     =  item_id,
             model_id    = model_id,
             shop_id     = shop_id,
@@ -26,6 +26,6 @@ def df_column_to_stock_price(data: pd.Series) -> Tuple[int,int]:
 
 def df_create_stock_price(data: pd.Series):
     item_detail = df_column_to_stock_price(data)
-    data['stock_for_product'] = item_detail[0]
-    data['price_for_product'] = item_detail[1]
+    data['current_stock'] = item_detail[0]
+    data['current_price'] = item_detail[1]
     return data
