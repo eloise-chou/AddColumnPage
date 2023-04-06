@@ -2,16 +2,16 @@ import pandas as pd
 
 def sku_check_stock(row: pd.Series) -> str:
 
-    stock_for_product = row['current_stock']
+    current_stock = row['current_stock']
     promotion_stock = row['promotion_stock']
 
-    if stock_for_product == -1:
+    if current_stock == -1:
         return "info not complete"
     
-    if stock_for_product == 0:
+    if current_stock == 0:
         return "OOS"
     
-    if stock_for_product < promotion_stock:
+    if current_stock < promotion_stock:
         return "low stock"
     
     return "OK"

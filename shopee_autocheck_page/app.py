@@ -39,8 +39,8 @@ if st.button("Check"):
         df_fetch_progress_bar.progress(percent_complete, text= f"Processing Progress：{current_model_id:,}" )
         stock, price = df_column_to_stock_price(row)
         print(stock)
-        fetched_df.loc[i, 'stock_for_product'] = stock
-        fetched_df.loc[i, 'price_for_product'] = price
+        fetched_df.loc[i, 'current_stock'] = stock
+        fetched_df.loc[i, 'current_price'] = price
 
         stock_status = validation_function(fetched_df.iloc[i])
         fetched_df.loc[i, 'sku_check']         = stock_status
